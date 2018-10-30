@@ -1,0 +1,57 @@
+# 1
+SELECT *
+FROM Teacher t
+LEFT OUTER JOIN ClassSubject cs ON t.id = cs.teacher_id
+WHERE cs.teacher_id IS NULL
+
+# 2
+SELECT p.name, ps.grade
+FROM Pupil p
+JOIN PupilSubject ps ON p.id = ps.pupil_id
+WHERE ps.grade IN (5)
+GROUP by p.name;
+
+
+# 3
+SELECT c.name AS class, AVG (ps.grade) AS average_grade
+FROM Class c
+JOIN Pupil p ON c.id = p.class_id
+JOIN PupilSubject ps ON p.id = ps.id
+GROUP by c.name;
+
+# 4
+SELECT c.year AS year, AVG (ps.grade) AS average_grade
+FROM Class c
+JOIN Pupil p ON c.id = p.class_id
+JOIN PupilSubject ps ON p.id = ps.id
+GROUP by c.year;
+
+# 5
+SELECT t.name
+FROM Teacher t
+JOIN ClassSubject cs ON t.id = cs.teacher_id
+GROUP by t.name;
+
+# 6
+SELECT c.year AS year, s.name AS subject, AVG (ps.grade) AS average_grade
+FROM Class c
+JOIN Pupil p ON c.id = p.class_id
+JOIN PupilSubject ps ON p.id = ps.id
+JOIN Subject s ON ps.subject_id = s.id
+GROUP by c.year, s.name;
+
+#7a
+SELECT t.name AS teacher, AVG (ps.grade) AS avg_grade
+FROM Teacher t
+JOIN ClassSubject cs ON t.id = cs.teacher_id
+JOIN PupilSubject ps ON cs.subject_id = ps.subject_id
+GROUP by t.name
+ORDER by AVG (ps.grade) DESC limit 5;
+
+#7b
+SELECT t.name AS teacher, AVG (ps.grade) AS avg_grade
+FROM Teacher t
+JOIN ClassSubject cs ON t.id = cs.teacher_id
+JOIN PupilSubject ps ON cs.subject_id = ps.subject_id
+GROUP by t.name
+ORDER by AVG (ps.grade) DESC limit 5 offset 9;
